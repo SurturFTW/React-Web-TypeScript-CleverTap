@@ -12,11 +12,16 @@ const onNativeDisplay = () => {
 
 function App() {
   const [carouselItems, setCarouselItems] = useState<any[]>([]);
+  const [notificationDetail, setNotificationDetail] = useState<any>(null); // <-- Add this
   const carouselRef = useRef<HTMLDivElement>(null);
 
   // Handler to display the carousel
   function handleCarouselNativeDisplay(detail: any) {
     if (detail && detail.kv) {
+      // Fire notification viewed event
+      clevertap.renderNotificationViewed(detail);
+      setNotificationDetail(detail); // <-- Save the detail
+
       const items = [];
       for (let i = 1; i <= 5; i++) {
         const imageKey = `image${i}`;
@@ -33,6 +38,7 @@ function App() {
       setCarouselItems(items);
     } else {
       setCarouselItems([]);
+      setNotificationDetail(null);
     }
   }
 
@@ -106,7 +112,16 @@ function App() {
                     transition: "transform 0.3s",
                   }}
                 >
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      if (notificationDetail) {
+                        clevertap.renderNotificationClicked(notificationDetail); // <-- Simple click
+                      }
+                    }}
+                  >
                     <img
                       src={item.imageUrl}
                       alt={item.title}
