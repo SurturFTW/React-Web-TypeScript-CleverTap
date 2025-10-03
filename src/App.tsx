@@ -20,9 +20,20 @@ function App() {
     if (detail && detail.kv) {
       // Fire notification viewed event
       clevertap.renderNotificationViewed(detail);
-      setNotificationDetail(detail); // <-- Save the detail
+      setNotificationDetail(detail);
 
       const items = [];
+
+      // Check if we have unnumbered keys first
+      if (detail.kv.image) {
+        items.push({
+          imageUrl: detail.kv.image,
+          title: detail.kv.title || "Default Title",
+          link: detail.kv.link || "#",
+        });
+      }
+
+      // Then check for numbered keys (1-5)
       for (let i = 1; i <= 5; i++) {
         const imageKey = `image${i}`;
         const titleKey = `title${i}`;
@@ -35,6 +46,7 @@ function App() {
           });
         }
       }
+
       setCarouselItems(items);
     } else {
       setCarouselItems([]);
@@ -55,7 +67,7 @@ function App() {
         console.log("Looking for displayType:", event.detail.kv.displayType);
         if (
           event.detail.kv.displayType === "imageCarousel" ||
-          event.detail.kv.topic === "imageCarousel"
+          event.detail.kv.topic === "blueprint"
         ) {
           handleCarouselNativeDisplay(event.detail);
         } else {
