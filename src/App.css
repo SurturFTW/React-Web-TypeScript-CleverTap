@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
