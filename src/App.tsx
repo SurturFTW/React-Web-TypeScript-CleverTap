@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import clevertap from "clevertap-web-sdk";
+// @ts-ignore: no type declarations for darkmode-js
+import Darkmode from "darkmode-js";
 
 clevertap.init("TEST-865-ZRW-7K7Z", "eu1");
 clevertap.setLogLevel(3);
@@ -29,6 +31,23 @@ interface MessageFlags {
 }
 
 function App() {
+  const options = {
+    bottom: "64px", // default: '32px'
+    right: "unset", // default: '32px'
+    left: "32px", // default: 'unset'
+    time: "0.5s", // default: '0.3s'
+    mixColor: "#fff", // default: '#fff'
+    backgroundColor: "#fff", // default: '#fff'
+    buttonColorDark: "#100f2c", // default: '#100f2c'
+    buttonColorLight: "#fff", // default: '#fff'
+    saveInCookies: false, // default: true,
+    label: "🌓", // default: ''
+    autoMatchOsTheme: true, // default: true
+  };
+
+  const darkmode = new Darkmode(options);
+  darkmode.showWidget();
+
   const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
   const [notificationDetail, setNotificationDetail] = useState<any>(null);
   const [showCarousel, setShowCarousel] = useState(false);
@@ -251,10 +270,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Login Modal */}
       {showLoginModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">User Login</h2>
@@ -489,34 +508,32 @@ function App() {
       )}
 
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white/95 backdrop-blur">
+      <header className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center p-1 border border-gray-200">
-                <img
-                  src="https://clevertap.com/wp-content/uploads/2023/11/clevertap-logo.png"
-                  alt="CleverTap Logo"
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center">
+                <span className="text-white text-xl font-bold">C</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+                <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   CleverTap Web SDK
                 </h1>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Test and demo various SDK features
                 </p>
                 {ctId && (
-                  <p className="text-xs text-gray-500 font-mono mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 font-mono mt-1">
                     CT ID: {ctId}
                   </p>
                 )}
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-sm text-gray-600">Connected</span>
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Connected
+              </span>
             </div>
           </div>
         </div>
@@ -527,19 +544,21 @@ function App() {
         {/* Quick Actions Section */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               Quick Actions
             </h2>
-            <p className="text-gray-600">Test core CleverTap functionality</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              Test core CleverTap functionality
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Login Card */}
-            <div className="group relative overflow-hidden rounded-lg border bg-white p-6 hover:shadow-lg transition-all duration-300">
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-green-600"
+                    className="w-5 h-5 text-green-600 dark:text-green-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -553,28 +572,28 @@ function App() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
                     User Authentication
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Login and identify user
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="w-full bg-gray-900 text-white hover:bg-gray-800 h-10 px-4 py-2 rounded-md font-medium transition-colors"
+                className="w-full bg-gray-900 dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600 h-10 px-4 py-2 rounded-md font-medium transition-colors"
               >
                 Login User
               </button>
             </div>
 
             {/* View Product Card */}
-            <div className="group relative overflow-hidden rounded-lg border bg-white p-6 hover:shadow-lg transition-all duration-300">
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-blue-600"
+                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -594,26 +613,28 @@ function App() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Product View</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Product View
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Track product interactions
                   </p>
                 </div>
               </div>
               <button
                 onClick={viewProduct}
-                className="w-full bg-gray-900 text-white hover:bg-gray-800 h-10 px-4 py-2 rounded-md font-medium transition-colors"
+                className="w-full bg-gray-900 dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600 h-10 px-4 py-2 rounded-md font-medium transition-colors"
               >
                 View Product
               </button>
             </div>
 
             {/* Subscribe Card */}
-            <div className="group relative overflow-hidden rounded-lg border bg-white p-6 hover:shadow-lg transition-all duration-300">
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 text-purple-600"
+                    className="w-5 h-5 text-purple-600 dark:text-purple-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -627,13 +648,17 @@ function App() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Subscription</h3>
-                  <p className="text-sm text-gray-600">Manage subscriptions</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Subscription
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Manage subscriptions
+                  </p>
                 </div>
               </div>
               <button
                 onClick={onSubscribe}
-                className="w-full bg-gray-900 text-white hover:bg-gray-800 h-10 px-4 py-2 rounded-md font-medium transition-colors"
+                className="w-full bg-gray-900 dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600 h-10 px-4 py-2 rounded-md font-medium transition-colors"
               >
                 Subscribe
               </button>
@@ -644,109 +669,21 @@ function App() {
         {/* Engagement Features Section */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               Engagement Features
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               Test various engagement campaigns and notifications
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              {
-                name: "Native Display",
-                color: "orange",
-                onClick: onnativeBanner,
-              },
-              { name: "Web Push", color: "red", onClick: onWebPush },
-              { name: "Exit Intent", color: "yellow", onClick: onExit },
-              { name: "Web Popup", color: "indigo", onClick: onPopup },
-            ].map((feature) => (
-              <div
-                key={feature.name}
-                className="rounded-lg border bg-white p-4 hover:shadow-md transition-shadow"
-              >
-                <div className="mb-3">
-                  <div
-                    className={`w-8 h-8 rounded bg-${feature.color}-100 flex items-center justify-center mb-2`}
-                  >
-                    <svg
-                      className={`w-4 h-4 text-${feature.color}-600`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-medium text-sm text-gray-900">
-                    {feature.name}
-                  </h3>
-                </div>
-                <button
-                  onClick={feature.onClick}
-                  className="w-full border border-gray-300 bg-white hover:bg-gray-50 h-9 px-3 rounded-md text-sm font-medium transition-colors"
-                >
-                  Trigger
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Advanced Features Section */}
-        <div className="mb-12">
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Advanced Features
-            </h2>
-            <p className="text-gray-600">Interactive campaigns and utilities</p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {[
-              {
-                name: "Subscription Popup",
-                color: "pink",
-                onClick: onCustomPopup,
-              },
-              {
-                name: "Scratch Card",
-                color: "emerald",
-                onClick: onScratchCard,
-              },
-              { name: "Survey Form", color: "emerald", onClick: onSurveyForm },
-              { name: "Stories", color: "violet", onClick: onStories },
-              { name: "Black Friday Sale", color: "violet", onClick: onBFSale },
-              { name: "Top Banner", color: "violet", onClick: onTopBanner },
-              {
-                name: "Bottom Banner",
-                color: "violet",
-                onClick: onBottomBanner,
-              },
-              { name: "Get CT ID", color: "cyan", onClick: getCTid },
-              { name: "Clear Cache", color: "red", onClick: clearCache },
-            ].map((feature) => (
-              <button
-                key={feature.name}
-                onClick={feature.onClick}
-                className={`flex flex-col items-center justify-center p-4 rounded-lg border bg-white hover:shadow-md transition-all duration-200 group ${
-                  feature.name === "Clear Cache"
-                    ? "border-red-200 bg-red-50 hover:bg-red-100"
-                    : ""
-                }`}
-              >
-                <div
-                  className={`w-10 h-10 rounded-full bg-${feature.color}-100 flex items-center justify-center mb-2 group-hover:bg-${feature.color}-200 transition-colors`}
-                >
+            {/* Native Display */}
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mr-3">
                   <svg
-                    className={`w-5 h-5 text-${feature.color}-600`}
+                    className="w-4 h-4 text-orange-600 dark:text-orange-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -755,27 +692,356 @@ function App() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
                 </div>
-                <span
-                  className={`text-sm font-medium text-center ${
-                    feature.name === "Clear Cache"
-                      ? "text-red-600"
-                      : "text-gray-900"
-                  }`}
-                >
-                  {feature.name}
-                </span>
+                <h3 className="font-medium text-sm text-gray-900 dark:text-white">
+                  Native Display
+                </h3>
+              </div>
+              <button
+                onClick={onnativeBanner}
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 h-9 px-3 rounded-md text-sm font-medium text-gray-900 dark:text-white transition-colors"
+              >
+                Trigger
               </button>
-            ))}
+            </div>
+
+            {/* Web Push */}
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-3">
+                  <svg
+                    className="w-4 h-4 text-cyan-600 dark:text-cyan-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-medium text-sm text-gray-900 dark:text-white">
+                  Web Push
+                </h3>
+              </div>
+              <button
+                onClick={onWebPush}
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 h-9 px-3 rounded-md text-sm font-medium text-gray-900 dark:text-white transition-colors"
+              >
+                Trigger
+              </button>
+            </div>
+
+            {/* Exit Intent */}
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center mr-3">
+                  <svg
+                    className="w-4 h-4 text-yellow-600 dark:text-yellow-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-medium text-sm text-gray-900 dark:text-white">
+                  Exit Intent
+                </h3>
+              </div>
+              <button
+                onClick={onExit}
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 h-9 px-3 rounded-md text-sm font-medium text-gray-900 dark:text-white transition-colors"
+              >
+                Trigger
+              </button>
+            </div>
+
+            {/* Web Popup */}
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center mr-3">
+                  <svg
+                    className="w-4 h-4 text-indigo-600 dark:text-indigo-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-medium text-sm text-gray-900 dark:text-white">
+                  Web Popup
+                </h3>
+              </div>
+              <button
+                onClick={onPopup}
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 h-9 px-3 rounded-md text-sm font-medium text-gray-900 dark:text-white transition-colors"
+              >
+                Trigger
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced Features Section */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Advanced Features
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Interactive campaigns and utilities
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {/* Subscription Popup */}
+            <button
+              onClick={onCustomPopup}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center mb-2 group-hover:bg-pink-200 dark:group-hover:bg-pink-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-pink-600 dark:text-pink-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Subscription Popup
+              </span>
+            </button>
+
+            {/* Scratch Card */}
+            <button
+              onClick={onScratchCard}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-2 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-emerald-600 dark:text-emerald-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Scratch Card
+              </span>
+            </button>
+
+            {/* Survey Form */}
+            <button
+              onClick={onSurveyForm}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center mb-2 group-hover:bg-teal-200 dark:group-hover:bg-teal-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-teal-600 dark:text-teal-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2v2M9 16h.01M9 12h.01"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Survey Form
+              </span>
+            </button>
+
+            {/* Stories */}
+            <button
+              onClick={onStories}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center mb-2 group-hover:bg-violet-200 dark:group-hover:bg-violet-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-violet-600 dark:text-violet-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Stories
+              </span>
+            </button>
+
+            {/* Black Friday Sale */}
+            <button
+              onClick={onBFSale}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mb-2 group-hover:bg-rose-200 dark:group-hover:bg-rose-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-rose-600 dark:text-rose-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Black Friday Sale
+              </span>
+            </button>
+
+            {/* Top Banner */}
+            <button
+              onClick={onTopBanner}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mb-2 group-hover:bg-amber-200 dark:group-hover:bg-amber-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-amber-600 dark:text-amber-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 15l7-7 7 7"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Top Banner
+              </span>
+            </button>
+
+            {/* Bottom Banner */}
+            <button
+              onClick={onBottomBanner}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center mb-2 group-hover:bg-lime-200 dark:group-hover:bg-lime-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-lime-600 dark:text-lime-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Bottom Banner
+              </span>
+            </button>
+
+            {/* Get CT ID */}
+            <button
+              onClick={getCTid}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center mb-2 group-hover:bg-sky-200 dark:group-hover:bg-sky-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-sky-600 dark:text-sky-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Get CT ID
+              </span>
+            </button>
+
+            {/* Clear Cache */}
+            <button
+              onClick={clearCache}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 hover:bg-red-100 dark:hover:bg-red-900 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-2 group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-red-600 dark:text-red-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-red-600 dark:text-red-400">
+                Clear Cache
+              </span>
+            </button>
           </div>
         </div>
 
         {/* Image Carousel Section */}
         {showCarousel && (
-          <div className="rounded-xl border bg-white shadow-sm overflow-hidden mb-8">
+          <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm overflow-hidden mb-8">
             <div className="p-6 pb-0">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -869,12 +1135,16 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white/95 backdrop-blur py-6 mt-12">
+      <footer className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 py-6 mt-12">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-gray-600">CleverTap Web SDK Demo.</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              CleverTap Web SDK Demo.
+            </div>
             <div className="flex items-center space-x-4 mt-4 md:mt-0">
-              <span className="text-sm text-gray-600">Version 1.0.0</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Version 1.0.0
+              </span>
               <div className="w-2 h-2 rounded-full bg-green-500"></div>
             </div>
           </div>
