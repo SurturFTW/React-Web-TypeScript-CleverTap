@@ -3,6 +3,7 @@ import "./App.css";
 import clevertap from "clevertap-web-sdk";
 // @ts-ignore: no type declarations for darkmode-js
 import Darkmode from "darkmode-js";
+import { useNavigate } from "react-router-dom";
 
 clevertap.init("TEST-865-ZRW-7K7Z", "eu1");
 clevertap.setLogLevel(3);
@@ -47,6 +48,8 @@ function App() {
 
   const darkmode = new Darkmode(options);
   darkmode.showWidget();
+
+  const navigate = useNavigate();
 
   const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
   const [notificationDetail, setNotificationDetail] = useState<any>(null);
@@ -193,6 +196,10 @@ function App() {
     console.log("Cache cleared");
     alert("Cache cleared!");
   };
+
+  function onProductExperiences() {
+    navigate("/home");
+  }
 
   // Handler to display the carousel
   function handleCarouselNativeDisplay(detail: any) {
@@ -984,6 +991,31 @@ function App() {
               </div>
               <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
                 Bottom Banner
+              </span>
+            </button>
+
+            {/* Product Experiences */}
+            <button
+              onClick={onProductExperiences}
+              className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center mb-2 group-hover:bg-lime-200 dark:group-hover:bg-lime-900/50 transition-colors">
+                <svg
+                  className="w-5 h-5 text-lime-600 dark:text-lime-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-center text-gray-900 dark:text-white">
+                Product Experiences
               </span>
             </button>
 
