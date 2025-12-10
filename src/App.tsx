@@ -5,8 +5,9 @@ import clevertap from "clevertap-web-sdk";
 import Darkmode from "darkmode-js";
 import { useNavigate } from "react-router-dom";
 
-clevertap.init("TEST-865-ZRW-7K7Z", "eu1");
-clevertap.setLogLevel(3);
+// clevertap.init("TEST-865-ZRW-7K7Z", "eu1");
+clevertap.init("677-ZZ6-7K7Z", "eu1", "", "611-aa6");
+clevertap.setLogLevel(4);
 clevertap.privacy.push({ optOut: false });
 clevertap.privacy.push({ useIP: true });
 
@@ -57,10 +58,10 @@ function App() {
   const [ctId, setCtId] = useState<string>("");
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    Name: "Push Test",
-    Identity: "+919137035855",
-    Email: "pushtest@gmail.com",
-    Phone: "+56765676567",
+    Name: "",
+    Identity: "1912",
+    Email: "",
+    Phone: "",
     Gender: "M",
   });
   const [messageFlags, setMessageFlags] = useState<MessageFlags>({
@@ -70,6 +71,20 @@ function App() {
     whatsapp: true,
   });
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  // Initialize CleverTap
+  useEffect(() => {
+    clevertap.init("677-ZZ6-7K7Z", "eu1", "", "611-aa6");
+    clevertap.setLogLevel(4);
+    clevertap.privacy.push({ optOut: false });
+    clevertap.privacy.push({ useIP: true });
+
+    // Get CleverTap ID after initialization
+    const id = clevertap.getCleverTapID();
+    if (id) {
+      setCtId(id);
+    }
+  }, []);
 
   // Handler functions
   const onLogin = () => {
@@ -198,7 +213,7 @@ function App() {
   };
 
   function onProductExperiences() {
-    navigate("/home");
+    navigate("/payment");
   }
 
   // Handler to display the carousel
